@@ -1,0 +1,23 @@
+{
+  "name": "rooms",
+  "version": "0.1.0",
+  "description": "A small app to view meeting room availability for Google Calendar.",
+  "author": "Matthias Loker",
+  "licence": "GPL-2.0",
+  "dependencies": {
+    "mithril": "^0.2.0"
+  },
+  "devDependencies": {
+    "browserify": "10.2.4",
+    "watchify": "latest",
+    "uglify-js2": "2.1.11"
+  },
+  "scripts": {
+    "build:js": "browserify app/js/room.js | uglifyjs2 -o dist/js/app.js",
+    "watch:js": "watchify app/js/room.js -o dist/js/app.js -v"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/HitFox/rooms.git"
+  }
+}
