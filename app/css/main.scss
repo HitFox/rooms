@@ -1,0 +1,13 @@
+@import 'variables';
+
+ul {
+  list-style-type: none;
+}
+
+.not-available {
+  background-color: $red;
+}
+
+.available {
+  background-color: $green;
+}

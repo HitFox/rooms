@@ -10,11 +10,17 @@
   "devDependencies": {
     "browserify": "10.2.4",
     "watchify": "latest",
-    "uglify-js2": "2.1.11"
+    "uglify-js2": "2.1.11",
+    "node-sass": "latest",
+    "nodemon": "latest"
   },
   "scripts": {
     "build:js": "browserify app/js/main.js | uglifyjs2 -o dist/js/app.js",
-    "watch:js": "watchify app/js/main.js -o dist/js/app.js -v"
+    "build:css": "node-sass app/css/main.scss dist/css/bundle.css",
+    "watch:js": "watchify app/js/main.js -o dist/js/app.js -v",
+    "watch:css": "nodemon -e scss -x \"npm run build:css\"",
+    "watch": "npm run watch:js & npm run watch:css",
+    "build": "npm run build:js & npm run build:css"
   },
   "repository": {
     "type": "git",

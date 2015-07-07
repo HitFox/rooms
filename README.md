@@ -10,7 +10,7 @@ After cloning the repo, `cd` into it and run the following:
 
 After the necessary modules have been installed, use the following command to watch your files:
 
-`$ npm run watch:js`
+`$ npm run watch`
 
 The only thing left to do now, is to start a server, e.g. Pythons simple HTTP server:
 
