@@ -13,8 +13,8 @@
     "uglify-js2": "2.1.11"
   },
   "scripts": {
-    "build:js": "browserify app/js/room.js | uglifyjs2 -o dist/js/app.js",
-    "watch:js": "watchify app/js/room.js -o dist/js/app.js -v"
+    "build:js": "browserify app/js/main.js | uglifyjs2 -o dist/js/app.js",
+    "watch:js": "watchify app/js/main.js -o dist/js/app.js -v"
   },
   "repository": {
     "type": "git",
