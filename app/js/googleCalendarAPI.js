@@ -35,7 +35,7 @@ function loadCalendarApi() {
   gapi.client.load('calendar', 'v3', showFreebusyInformation);
 }
 
-var calendars = {
+var calendars = module.exports.calendars = {
   'Moscow': 'hitfox.com_2d3938313939343735383136@resource.calendar.google.com',
   'Berlin': 'hitfox.com_3832383536343230323234@resource.calendar.google.com',
   'Living Room': 'hitfox.com_3434363631343038353937@resource.calendar.google.com',
@@ -98,6 +98,5 @@ function showFreebusyInformation() {
     } else {
       console.log('Something went wrong');
     }
-
   });
 }
