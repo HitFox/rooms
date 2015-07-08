@@ -15,6 +15,21 @@ Room.all = function() {
   return calendars;
 }
 
+var MainApp = {
+  controller: function() {
+    var self = this;
+    self.authenticated = function() {
+      return true;
+    }
+  },
+
+  view: function(ctrl) {
+    return m("div", {class: "app-container"}, [
+      ctrl.authenticated() ? m.component(RoomList) : m.component(Login)
+    ])
+  }
+}
+
 var Login = {
   view: function() {
     return m("div", {id: "login"}, [
@@ -48,4 +63,4 @@ var RoomElement = {
   }
 }
 
-m.mount(document.body, RoomList);
+m.mount(document.body, MainApp);
