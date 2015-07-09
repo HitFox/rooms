@@ -44,7 +44,7 @@ var RoomList = {
   },
 
   view: function(ctrl) {
-    return m("ul", [
+    return m("ul", {class: "rooms"}, [
       ctrl.rooms.map(function(room){
         return m.component(RoomElement, {room: room})
       })

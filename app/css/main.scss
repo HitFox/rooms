@@ -1,13 +1,38 @@
 @import 'variables';
+@import 'settings';
 
-ul {
-  list-style-type: none;
-}
+@media only screen
+and (min-device-width : 320px)
+and (max-device-width : 480px) {
 
-.not-available {
-  background-color: $red;
-}
+  .app-container {
+    width: 70%;
+    margin: auto;
+  }
 
-.available {
-  background-color: $green;
+  .rooms {
+    text-align: center;
+  }
+
+  .room {
+    margin-bottom: .5em;
+    height: 1.8em;
+    line-height: 1.8em;
+    font-size: 16pt;
+    border-radius: 2px;
+
+    &:first-child {
+      margin-top: 2em;
+    }
+  }
+
+  .not-available {
+    background-color: $light-grey;
+    color: $room-unavailable;
+  }
+
+  .available {
+    background-color: $green;
+    color: $white;
+  }
 }
