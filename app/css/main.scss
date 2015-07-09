@@ -8,6 +8,24 @@ and (max-device-width : 480px) {
   .app-container {
     width: 70%;
     margin: auto;
+    text-align: center;
+  }
+
+  #login {
+    margin-top: 18em;
+
+    button {
+      border: none;
+      color: $white;
+      background-color: $green;
+      font-size: $base-font-size - 2;
+      padding: 1em 1.8em;
+      border-radius: 3px;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
   }
 
   .rooms {
@@ -18,7 +36,7 @@ and (max-device-width : 480px) {
     margin-bottom: .5em;
     height: 1.8em;
     line-height: 1.8em;
-    font-size: 16pt;
+    font-size: $base-font-size;
     border-radius: 2px;
 
     &:first-child {

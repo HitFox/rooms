@@ -47,7 +47,7 @@ var Login = {
 
   view: function() {
     return m("div", {id: "login"}, [
-      m("button", {onclick: this.handleLogin(), id: "login-button"}, "Login")
+      m("button", {onclick: this.handleLogin()}, "Login with Google")
     ])
   }
 }
