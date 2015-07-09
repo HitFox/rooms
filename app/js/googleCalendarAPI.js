@@ -2,19 +2,13 @@ var CLIENT_ID = '1068348292557-n3mb1rgigec0o87nhdpqlab4bolvlkbs.apps.googleuserc
 
 var SCOPES = ["https://www.googleapis.com/auth/calendar.readonly"];
 
-module.exports.checkAuth = function checkAuth() {
+module.exports.checkAuth = function checkAuth(callback) {
   gapi.auth.authorize(
     {
       'client_id': CLIENT_ID,
       'scope': SCOPES,
       'immediate': false
-    }, handleAuthResult);
-}
-
-function handleAuthResult(authResult) {
-  if (authResult && !authResult.error) {
-    loadCalendarApi();
-  }
+    }, callback);
 }
 
 function handleAuthClick(event) {

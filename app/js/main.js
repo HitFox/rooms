@@ -10,12 +10,16 @@ var User = function(data) {
   this.authenticated = m.prop(false);
 }
 
-User.authenticate = function() {
-  if (googleCalendarAPI.checkAuth()) {
-    User.authenticated(true);
-  } else {
-    User.authenticated(false);
-  }
+User.prototype.authenticate = function(user) {
+  googleCalendarAPI.checkAuth(function(result) {
+    if (result && !result.error) {
+      user.authenticated(true);
+      console.log('apparently authenticated');
+    } else {
+      console.log('not authenticated');
+      user.authenticated(false);
+    }
+  });
 }
 
 Room.all = function() {
@@ -29,25 +33,22 @@ Room.all = function() {
 
 var MainApp = {
   controller: function() {
-    var self = this;
-    self.userAuthenticated = User.authenticated;
+    var user = new User();
+    self.userAuthenticated = user.authenticated();
+    return {user: user}
   },
 
   view: function(ctrl) {
     return m("div", {class: "app-container"}, [
-      ctrl.userAuthenticated ? m.component(RoomList) : m.component(Login)
+      ctrl.userAuthenticated ? m.component(RoomList) : m.component(Login, {user: ctrl.user})
     ])
   }
 }
 
 var Login = {
-  handleLogin: function() {
-    return User.authenticate
-  },
-
-  view: function() {
+  view: function(ctrl, data) {
     return m("div", {id: "login"}, [
-      m("button", {onclick: this.handleLogin()}, "Login with Google")
+      m("button", {onclick: data.user.authenticate.bind(this, data.user)}, "Login with Google")
     ])
   }
 }
