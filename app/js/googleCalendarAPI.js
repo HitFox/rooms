@@ -29,14 +29,13 @@ function loadCalendarApi() {
 }
 
 var calendars = module.exports.calendars = {
-  'Moscow': 'hitfox.com_2d3938313939343735383136@resource.calendar.google.com',
-  'Berlin': 'hitfox.com_3832383536343230323234@resource.calendar.google.com',
-  'Living Room': 'hitfox.com_3434363631343038353937@resource.calendar.google.com',
+  'Dheli': 'hitfox.com_39353631383334352d373837@resource.calendar.google.com',
   'Paris': 'hitfox.com_333139373337302d393030@resource.calendar.google.com',
-  'San Francisco': 'hitfox.com_39353631383334352d373837@resource.calendar.google.com',
-  'Sydney': 'hitfox.com_3535303939343431373033@resource.calendar.google.com',
   'Zurich': 'hitfox.com_37313339353738362d323839@resource.calendar.google.com',
-  'Seoul': 'hitfox.com_32343038303334322d393836@resource.calendar.google.com'
+  'Berlin': 'hitfox.com_3832383536343230323234@resource.calendar.google.com',
+  'Seoul': 'hitfox.com_32343038303334322d393836@resource.calendar.google.com',
+  'Moscow': 'hitfox.com_2d3938313939343735383136@resource.calendar.google.com',
+  'Sao Paolo': 'hitfox.com_3535303939343431373033@resource.calendar.google.com'
 }
 
 function getCalendarName(id) {
