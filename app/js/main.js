@@ -7,19 +7,33 @@ var Room = function(data) {
 }
 
 var User = function(data) {
-  this.authenticated = m.prop(false);
+  this.authenticated = m.prop(data.authenticated || false);
 }
 
 User.prototype.authenticate = function(user) {
   googleCalendarAPI.checkAuth(function(result) {
     if (result && !result.error) {
       user.authenticated(true);
+      User.save(user);
       console.log('apparently authenticated');
     } else {
       console.log('not authenticated');
       user.authenticated(false);
     }
   });
+}
+
+User.save = function(user) {
+  localStorage["rooms.current-user"] = JSON.stringify(user);
+}
+
+User.load = function() {
+  try {
+    user = JSON.parse(localStorage["rooms.current-user"]);
+    return new User({authenticated: user.authenticated});
+  } catch(err) {
+    return undefined;
+  }
 }
 
 Room.all = function() {
@@ -33,8 +47,9 @@ Room.all = function() {
 
 var MainApp = {
   controller: function() {
-    var user = new User();
+    var user = User.load() || new User();
     self.userAuthenticated = user.authenticated();
+
     return {user: user}
   },
 
