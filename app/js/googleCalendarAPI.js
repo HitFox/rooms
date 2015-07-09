@@ -2,7 +2,7 @@ var CLIENT_ID = '1068348292557-n3mb1rgigec0o87nhdpqlab4bolvlkbs.apps.googleuserc
 
 var SCOPES = ["https://www.googleapis.com/auth/calendar.readonly"];
 
-function checkAuth() {
+module.exports.checkAuth = function checkAuth() {
   gapi.auth.authorize(
     {
       'client_id': CLIENT_ID,
@@ -12,15 +12,8 @@ function checkAuth() {
 }
 
 function handleAuthResult(authResult) {
-  var loginDiv = document.getElementById('login');
   if (authResult && !authResult.error) {
-    // Hide auth UI, then load client library.
-    loginDiv.style.display = 'none';
     loadCalendarApi();
-  } else {
-    // Show auth UI, allowing the user to initiate authorization by
-    // clicking authorize button.
-    loginDiv.style.display = 'inline';
   }
 }
 

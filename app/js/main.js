@@ -6,6 +6,18 @@ var Room = function(data) {
   this.free = m.prop(false);
 }
 
+var User = function(data) {
+  this.authenticated = m.prop(false);
+}
+
+User.authenticate = function() {
+  if (googleCalendarAPI.checkAuth()) {
+    User.authenticated(true);
+  } else {
+    User.authenticated(false);
+  }
+}
+
 Room.all = function() {
   var calendars = [];
   for (var name in googleCalendarAPI.calendars) {
@@ -18,22 +30,24 @@ Room.all = function() {
 var MainApp = {
   controller: function() {
     var self = this;
-    self.authenticated = function() {
-      return true;
-    }
+    self.userAuthenticated = User.authenticated;
   },
 
   view: function(ctrl) {
     return m("div", {class: "app-container"}, [
-      ctrl.authenticated() ? m.component(RoomList) : m.component(Login)
+      ctrl.userAuthenticated ? m.component(RoomList) : m.component(Login)
     ])
   }
 }
 
 var Login = {
+  handleLogin: function() {
+    return User.authenticate
+  },
+
   view: function() {
     return m("div", {id: "login"}, [
-      m("button", "yes")
+      m("button", {onclick: this.handleLogin(), id: "login-button"}, "Login")
     ])
   }
 }
