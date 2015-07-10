@@ -16,7 +16,7 @@ User.prototype.authenticate = function(user) {
     if (result && !result.error) {
       user.authenticated(true);
       User.save(user);
-      console.log('apparently authenticated');
+      m.redraw();
     } else {
       console.log('not authenticated');
       user.authenticated(false);
@@ -49,14 +49,13 @@ Room.all = function() {
 var MainApp = {
   controller: function() {
     var user = User.load() || new User();
-    var userAuthenticated = user.authenticated();
 
-    return {user: user, userAuthenticated: userAuthenticated}
+    return {user: user}
   },
 
   view: function(ctrl) {
     return m("div", {class: "app-container"}, [
-      ctrl.userAuthenticated ? m.component(RoomList) : m.component(Login, {user: ctrl.user})
+      ctrl.user.authenticated() ? m.component(RoomList) : m.component(Login, {user: ctrl.user})
     ])
   }
 }
