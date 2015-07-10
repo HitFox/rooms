@@ -7,6 +7,7 @@ var Room = function(data) {
 }
 
 var User = function(data) {
+  var data = data || {};
   this.authenticated = m.prop(data.authenticated || false);
 }
 
@@ -32,7 +33,7 @@ User.load = function() {
     user = JSON.parse(localStorage["rooms.current-user"]);
     return new User({authenticated: user.authenticated});
   } catch(err) {
-    return undefined;
+    return false;
   }
 }
 
@@ -48,9 +49,9 @@ Room.all = function() {
 var MainApp = {
   controller: function() {
     var user = User.load() || new User();
-    self.userAuthenticated = user.authenticated();
+    var userAuthenticated = user.authenticated();
 
-    return {user: user}
+    return {user: user, userAuthenticated: userAuthenticated}
   },
 
   view: function(ctrl) {
