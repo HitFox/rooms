@@ -18,8 +18,12 @@ function handleAuthClick(event) {
   return false;
 }
 
-function loadCalendarApi() {
-  gapi.client.load('calendar', 'v3', showFreebusyInformation);
+module.exports.setToken = function setToken(token) {
+  gapi.auth.setToken(token);
+}
+
+module.exports.getCalendars = function loadCalendarApi(callback) {
+  gapi.client.load('calendar', 'v3', showFreebusyInformation.bind(this, callback));
 }
 
 var calendars = module.exports.calendars = {
@@ -29,7 +33,7 @@ var calendars = module.exports.calendars = {
   'Berlin': 'hitfox.com_3832383536343230323234@resource.calendar.google.com',
   'Seoul': 'hitfox.com_32343038303334322d393836@resource.calendar.google.com',
   'Moscow': 'hitfox.com_2d3938313939343735383136@resource.calendar.google.com',
-  'Sao Paolo': 'hitfox.com_3535303939343431373033@resource.calendar.google.com'
+  'Sao Paulo': 'hitfox.com_3535303939343431373033@resource.calendar.google.com'
 }
 
 function getCalendarName(id) {
@@ -43,9 +47,9 @@ function getCalendarName(id) {
 
 function freeOrBusy(calendar) {
   if (calendar.busy.length === 0) {
-    return 'free';
+    return true;
   } else {
-    return 'occupied';
+    return false;
   }
 }
 
@@ -59,7 +63,7 @@ function calendarsForFreebusy() {
   return calendarArray
 }
 
-function showFreebusyInformation() {
+function showFreebusyInformation(callback) {
   var request = gapi.client.calendar.freebusy.query({
     resource: {
       timeMin: new Date(Date.now()).toISOString(),
@@ -71,18 +75,22 @@ function showFreebusyInformation() {
 
   request.execute(function(resp) {
     var calendars = resp.calendars;
-    console.log(JSON.stringify(calendars));
 
     if (calendars) {
       console.log('Success');
       var calendarsFreeBusyInfo = new Object();
       for (var calendarId in calendars) {
         var name = getCalendarName(calendarId);
-        calendarsFreeBusyInfo[name] = freeOrBusy(calendars[calendarId]);
+        var bool = freeOrBusy(calendars[calendarId]);
+        calendarsFreeBusyInfo[name] = [calendarId, bool];
+
       }
-      console.log(calendarsFreeBusyInfo);
+      callback(null, calendarsFreeBusyInfo);
     } else {
       console.log('Something went wrong');
     }
   });
 }
+
+
+
