@@ -1,9 +1,28 @@
 var googleCalendarAPI = require('./googleCalendarAPI.js');
 
+var rooms = [];
+
 var Room = function(data) {
   this.googleCalendarId = m.prop(data.googleCalendarId);
   this.name = m.prop(data.name);
   this.free = m.prop(data.free);
+}
+
+Room.all = function(callback) {
+  googleCalendarAPI.setToken(JSON.parse(localStorage["rooms.access-token"]));
+  googleCalendarAPI.getCalendars(function(err, calendars) {
+    if (err) {
+      console.log('ERROR', err);
+      callback(err);
+    } else {
+      var rooms = [];
+      for (var name in calendars) {
+        var room = new Room({googleCalendarId: calendars[name][0], name: name, free: calendars[name][1]});
+        rooms.push(room);
+      }
+      callback(null, rooms);
+    }
+  });
 }
 
 var User = function(data) {
@@ -15,6 +34,7 @@ User.prototype.authenticate = function(user) {
   googleCalendarAPI.checkAuth(function(result) {
     if (result && !result.error) {
       user.authenticated(true);
+      localStorage["rooms.access-token"] = JSON.stringify(result);
       User.save(user);
       m.redraw();
     } else {
@@ -35,22 +55,6 @@ User.load = function() {
   } catch(err) {
     return false;
   }
-}
-
-Room.all = function(callback) {
-  googleCalendarAPI.getCalendars(function(err, calendars) {
-    if (err) {
-      console.log('ERROR', err);
-      callback(err);
-    } else {
-      var rooms = [];
-      for (var name in calendars) {
-        var room = new Room({googleCalendarId: calendars[name][0], name: name, free: calendars[name][1]});
-        rooms.push(room);
-      }
-      callback(null, rooms);
-    }
-  });
 }
 
 var MainApp = {
@@ -75,8 +79,6 @@ var Login = {
     ])
   }
 }
-
-var rooms = [];
 
 var RoomList = {
   controller: function() {
@@ -110,4 +112,7 @@ var RoomElement = {
   }
 }
 
-m.mount(document.body, MainApp);
+window.init = function() {
+  console.log('initialized gapi');
+  m.mount(document.body, MainApp);
+}

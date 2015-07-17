@@ -7,15 +7,8 @@ module.exports.checkAuth = function checkAuth(callback) {
     {
       'client_id': CLIENT_ID,
       'scope': SCOPES,
-      'immediate': false
+      'immediate': true
     }, callback);
-}
-
-function handleAuthClick(event) {
-  gapi.auth.authorize(
-    {client_id: CLIENT_ID, scope: SCOPES, immediate: false},
-    handleAuthResult);
-  return false;
 }
 
 module.exports.setToken = function setToken(token) {
@@ -27,13 +20,13 @@ module.exports.getCalendars = function loadCalendarApi(callback) {
 }
 
 var calendars = module.exports.calendars = {
-  'Dheli': 'hitfox.com_39353631383334352d373837@resource.calendar.google.com',
-  'Paris': 'hitfox.com_333139373337302d393030@resource.calendar.google.com',
-  'Zurich': 'hitfox.com_37313339353738362d323839@resource.calendar.google.com',
-  'Berlin': 'hitfox.com_3832383536343230323234@resource.calendar.google.com',
-  'Seoul': 'hitfox.com_32343038303334322d393836@resource.calendar.google.com',
+  'Sao Paulo': 'hitfox.com_3535303939343431373033@resource.calendar.google.com',
   'Moscow': 'hitfox.com_2d3938313939343735383136@resource.calendar.google.com',
-  'Sao Paulo': 'hitfox.com_3535303939343431373033@resource.calendar.google.com'
+  'Seoul': 'hitfox.com_32343038303334322d393836@resource.calendar.google.com',
+  'Berlin': 'hitfox.com_3832383536343230323234@resource.calendar.google.com',
+  'Zurich': 'hitfox.com_37313339353738362d323839@resource.calendar.google.com',
+  'Paris': 'hitfox.com_333139373337302d393030@resource.calendar.google.com',
+  'Dheli': 'hitfox.com_39353631383334352d373837@resource.calendar.google.com'
 }
 
 function getCalendarName(id) {
