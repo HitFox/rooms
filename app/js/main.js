@@ -70,6 +70,7 @@ var MainApp = {
 var Login = {
   view: function(ctrl, data) {
     return m("div", {id: "login"}, [
+      m("img", {src: "/app/img/couch.svg"}),
       m("button", {onclick: data.user.authenticate.bind(this, data.user)}, "Login with Google")
     ])
   }

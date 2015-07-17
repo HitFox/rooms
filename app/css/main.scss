@@ -12,7 +12,7 @@ and (max-device-width : 480px) {
   }
 
   #login {
-    margin-top: 18em;
+    margin-top: 7em;
 
     button {
       border: none;
@@ -21,6 +21,7 @@ and (max-device-width : 480px) {
       font-size: $base-font-size - 2;
       padding: 1em 1.8em;
       border-radius: 3px;
+      margin-top: 5em;
 
       &:hover {
         cursor: pointer;
