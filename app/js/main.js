@@ -66,7 +66,7 @@ var MainApp = {
 
   view: function(ctrl) {
     return m("div", {class: "app-container"}, [
-      ctrl.user.authenticated() ? m.component(RoomList) : m.component(Login, {user: ctrl.user})
+      ctrl.user.authenticated() ? [m.component(RoomList), m.component(LoadingIcon)] : m.component(Login, {user: ctrl.user})
     ])
   }
 }
@@ -109,6 +109,16 @@ var RoomElement = {
   view: function(ctrl, data) {
     var room = data.room;
     return m("li", {class: "room " + this.isRoomAvailableClass(room)}, room.name())
+  }
+}
+
+var LoadingIcon = {
+  view: function() {
+    return m("div", {class: "sk-three-bounce"}, [
+      m("div", {class: "sk-child sk-bounce1"}),
+      m("div", {class: "sk-child sk-bounce2"}),
+      m("div", {class: "sk-child sk-bounce3"})
+    ])
   }
 }
 
