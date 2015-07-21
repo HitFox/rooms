@@ -29,6 +29,7 @@ var User = function(data) {
   var data = data || {};
   this.authenticated = function() {
     var minutesPassed = (Date.now() - this.createdAt()) / 1000 / 60;
+
     if (minutesPassed > 59) {
       return false;
     } else {
@@ -69,7 +70,7 @@ User.load = function() {
 
 var MainApp = {
   controller: function() {
-    var user = User.load() || new User();
+    var user = User.load() || new User({createdAt: Date.now() - 61 * 60 * 1000});
 
     return {user: user}
   },
