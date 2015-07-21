@@ -28,7 +28,7 @@ Room.all = function(callback) {
 var User = function(data) {
   var data = data || {};
   this.authenticated = function() {
-    var minutesPassed = new Date(Date.now() - this.createdAt()).getMinutes();
+    var minutesPassed = (Date.now() - this.createdAt()) / 1000 / 60;
     if (minutesPassed > 59) {
       return false;
     } else {
