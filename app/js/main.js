@@ -27,19 +27,28 @@ Room.all = function(callback) {
 
 var User = function(data) {
   var data = data || {};
-  this.authenticated = m.prop(data.authenticated || false);
+  this.authenticated = function() {
+    var minutesPassed = new Date(Date.now() - this.createdAt()).getMinutes();
+    if (minutesPassed > 59) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+  this.createdAt = m.prop(data.createdAt || Date.now())
 }
 
-User.prototype.authenticate = function(user) {
+User.prototype.authenticate = function() {
+  var user = new User();
   googleCalendarAPI.checkAuth(function(result) {
     if (result && !result.error) {
-      user.authenticated(true);
+      localStorage.clear();
       localStorage["rooms.access-token"] = JSON.stringify(result);
       User.save(user);
-      m.redraw();
+      m.mount(document.body, MainApp);
     } else {
-      console.log('not authenticated');
-      user.authenticated(false);
+      user.createdAt(Date.now() - 61 * 60 * 1000);
+      User.save(user);
     }
   });
 }
@@ -51,7 +60,8 @@ User.save = function(user) {
 User.load = function() {
   try {
     user = JSON.parse(localStorage["rooms.current-user"]);
-    return new User({authenticated: user.authenticated});
+
+    return new User({createdAt: user.createdAt});
   } catch(err) {
     return false;
   }
@@ -75,7 +85,7 @@ var Login = {
   view: function(ctrl, data) {
     return m("div", {id: "login"}, [
       m("img", {src: "/app/img/couch.svg"}),
-      m("button", {onclick: data.user.authenticate.bind(this, data.user)}, "Login with Google")
+      m("button", {onclick: data.user.authenticate}, "Login with Google")
     ])
   }
 }
@@ -123,6 +133,5 @@ var LoadingIcon = {
 }
 
 window.init = function() {
-  console.log('initialized gapi');
   m.mount(document.body, MainApp);
 }
