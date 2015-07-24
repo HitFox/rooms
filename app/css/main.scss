@@ -1,6 +1,7 @@
 @import 'variables';
 @import 'settings';
 @import 'loading_icon';
+@import 'mixins';
 
 @media only screen
 and (min-device-width : 320px)
@@ -10,7 +11,7 @@ and (max-device-width : 480px) {
     width: 70%;
     margin: auto;
     text-align: center;
-    margin-top: 5em;
+    margin-top: 3em;
   }
 
   #login {
@@ -43,11 +44,50 @@ and (max-device-width : 480px) {
     line-height: 1.8em;
     font-size: $base-font-size;
     border-radius: 2px;
+    margin-bottom: 1em;
+    position: relative;
+    overflow: hidden;
+
+    &:hover {
+      .room-info {
+        top: -38px;
+      }
+
+      .progress-bar {
+        border-bottom-left-radius: 0;
+        border-top-left-radius: 2px;
+      }
+    }
+  }
+
+  .room-info {
+    @include transition(top .2s ease);
+    position: relative;
+    top: -5px;
+  }
+
+  .info-text {
+    font-size: 12pt;
+    color: $black;
+    background-color: $light-grey;
+    display: inline-block;
+    position: relative;
+    line-height: 2em;
+    top: -5px;
+  }
+
+  #stopwatch {
+    display: inline-block;
+    width: 20px;
+    position: relative;
+    top: 5px;
+    right: 8px;
   }
 
   .progress-bar {
-    height: 4px;
+    height: 6px;
     background-color: $green;
+    border-bottom-left-radius: 2px;
   }
 
   .not-available {

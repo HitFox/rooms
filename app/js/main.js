@@ -172,10 +172,7 @@ var RoomList = {
   view: function(ctrl) {
     return m("ul", {class: "rooms"}, [
       ctrl.rooms.map(function(room) {
-        return [
-          m.component(RoomElement, {room: room}),
-          room.free(15) ? "" : m.component(RoomElementInfo, {room: room})
-        ]
+        return m.component(RoomElement, {room: room})
       })
     ])
   }
@@ -188,7 +185,9 @@ var RoomElement = {
 
   view: function(ctrl, data) {
     var room = data.room;
-    return m("li", {class: "room " + this.isRoomAvailableClass(room)}, room.name())
+    return m("li", {class: "room " + this.isRoomAvailableClass(room)}, room.name(),[
+      room.free(15) ? "" : m.component(RoomElementInfo, {room: room})
+    ])
   }
 }
 
@@ -202,7 +201,6 @@ var RoomElementInfo = {
   textForWhenRoomIsFree: function(room) {
     var times = room.freeBusyInfo();
     var min = Time.minutesUntilFree(15, times);
-    console.log('minutesUntilFree return value: ' + min);
     if (min === 60) {
       return "Room not available"
     } else {
@@ -214,6 +212,7 @@ var RoomElementInfo = {
     var room = data.room;
     return m("div", {class: "room-info"}, [
       m("div", {class: "progress-bar", style: "width:" + this.progressBarWidth(room) + "%"}),
+      m("img", {id: "stopwatch", src: "/app/img/stopwatch.svg"}),
       m("div", {class: "info-text"}, this.textForWhenRoomIsFree(room))
     ])
   }
