@@ -1,58 +1,119 @@
 @import 'variables';
 @import 'settings';
 @import 'loading_icon';
+@import 'mixins';
 
-@media only screen
-and (min-device-width : 320px)
-and (max-device-width : 480px) {
-
-  .app-container {
-    width: 70%;
-    margin: auto;
-    text-align: center;
-    margin-top: 5em;
+.app-container {
+  width: 70%;
+  margin: auto;
+  text-align: center;
+  margin-top: 3em;
+  @include bp-iphone4-iphone6 {
+    margin-top: 6em;
   }
+  @include bp-ipad-desktop {
+    max-width: 30%;
+  }
+}
 
-  #login {
-    margin-top: 7em;
+#login {
+  margin-top: 7em;
 
-    button {
-      border: none;
-      color: $white;
-      background-color: $green;
-      font-size: $base-font-size - 2;
-      padding: 1em 1.8em;
-      border-radius: 3px;
-      margin-top: 5em;
+  button {
+    border: none;
+    color: $white;
+    background-color: $green;
+    font-size: $base-font-size - 2;
+    padding: 1em 1.8em;
+    border-radius: 3px;
+    margin-top: 5em;
 
-      &:hover {
-        cursor: pointer;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+.rooms {
+  text-align: center;
+  background-color: $white;
+  z-index: 2;
+  position: relative;
+}
+
+.room {
+  height: 1.8em;
+  line-height: 1.8em;
+  font-size: $base-font-size;
+  border-radius: 2px;
+  margin-bottom: 1em;
+  position: relative;
+  overflow: hidden;
+
+  &:hover {
+    .room-info {
+      top: -38px;
+      @include bp-iphone4-iphone6 {
+        top: -53px;
       }
+      @include bp-ipad-desktop {
+        top: -53px;
+      }
+    }
+
+    .progress-bar {
+      border-bottom-left-radius: 0;
+      border-top-left-radius: 2px;
     }
   }
 
-  .rooms {
-    text-align: center;
-    background-color: $white;
-    z-index: 2;
-    position: relative;
+  @include bp-iphone4-iphone6 {
+    height: 2.5em;
+    line-height: 2.5em;
   }
 
-  .room {
-    margin-bottom: .5em;
-    height: 1.8em;
-    line-height: 1.8em;
-    font-size: $base-font-size;
-    border-radius: 2px;
+  @include bp-ipad-desktop {
+    height: 2.5em;
+    line-height: 2.5em;
   }
+}
 
-  .not-available {
-    background-color: $light-grey;
-    color: $room-unavailable;
-  }
+.room-info {
+  @include transition(top .2s ease);
+  background-color: $grey;
+  position: relative;
+  top: -5px;
+}
 
-  .available {
-    background-color: $green;
-    color: $white;
-  }
+.info-text {
+  font-size: 12pt;
+  color: $black;
+  display: inline-block;
+  position: relative;
+  line-height: 2em;
+  top: -5px;
+}
+
+#stopwatch {
+  display: inline-block;
+  width: 20px;
+  position: relative;
+  top: 5px;
+  right: 8px;
+}
+
+.progress-bar {
+  height: 6px;
+  background-color: $green;
+  border-bottom-left-radius: 2px;
+}
+
+.not-available {
+  background-color: $light-grey;
+  color: $room-unavailable;
+}
+
+.available {
+  background-color: $green;
+  color: $white;
 }
