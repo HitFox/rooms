@@ -2,10 +2,72 @@ var googleCalendarAPI = require('./googleCalendarAPI.js');
 
 var rooms = [];
 
+var Time = {
+  timeDifference: function(startTime, endTime) {
+    return (endTime - startTime) / 60 / 1000;
+  },
+
+  findMatch: function(startTime, endTime, duration) {
+    var timeDiff = this.timeDifference(startTime, endTime);
+    if (timeDiff >= duration) {
+      return true;
+    }
+    return false;
+  },
+
+  calcMinUntil: function(startTime, endTime) {
+    return Math.floor(this.timeDifference(startTime, endTime));
+  },
+
+  minutesUntilFree: function(duration, times) {
+    var finalTimes = [];
+    var startTime = new Date(Date.now() - 1 * 60 * 1000);
+    var endTime = new Date(Date.now() + 60 * 60 * 1000);
+    var self = this;
+    if (times.length === 1) {
+      if (self.findMatch(new Date(times[0].end), endTime, duration)) {
+        finalTimes.push(self.calcMinUntil(startTime, new Date(times[0].end)));
+      }
+    } else {
+      times.forEach(function(time, i) {
+        if (i === (times.length - 1)) {
+          if (self.findMatch(new Date(time.end), endTime, duration)) {
+            finalTimes.push(self.calcMinUntil(startTime, new Date(time.end)));
+          }
+        } else {
+          if (self.findMatch(new Date(time.end), new Date(times[i + 1].start), duration)) {
+            finalTimes.push(self.calcMinUntil(startTime, new Date(time.end)));
+          }
+        }
+      });
+    }
+    if (finalTimes.length === 0) {
+      return 60;
+    } else {
+      return finalTimes[0];
+    }
+  }
+}
+
 var Room = function(data) {
+  var data = data || {};
   this.googleCalendarId = m.prop(data.googleCalendarId);
   this.name = m.prop(data.name);
-  this.free = m.prop(data.free);
+  this.freeBusyInfo = m.prop(data.freeBusyInfo);
+  this.free = function(minutes) {
+    var info = this.freeBusyInfo();
+    if (info.length === 0) {
+      return true;
+    } else {
+      var firstEvent = info[0];
+      minUntilStart = (new Date(firstEvent.start) - new Date(Date.now())) / 60 / 1000;
+      if (minUntilStart > minutes) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
 }
 
 Room.all = function(callback) {
@@ -17,7 +79,11 @@ Room.all = function(callback) {
     } else {
       var rooms = [];
       for (var name in calendars) {
-        var room = new Room({googleCalendarId: calendars[name][0], name: name, free: calendars[name][1]});
+        var room = new Room({
+          googleCalendarId: calendars[name][0],
+          name: name,
+          freeBusyInfo: calendars[name][1]
+        });
         rooms.push(room);
       }
       callback(null, rooms);
@@ -106,7 +172,10 @@ var RoomList = {
   view: function(ctrl) {
     return m("ul", {class: "rooms"}, [
       ctrl.rooms.map(function(room) {
-        return m.component(RoomElement, {room: room})
+        return [
+          m.component(RoomElement, {room: room}),
+          room.free(15) ? "" : m.component(RoomElementInfo, {room: room})
+        ]
       })
     ])
   }
@@ -114,12 +183,39 @@ var RoomList = {
 
 var RoomElement = {
   isRoomAvailableClass: function(room) {
-    return room.free() ? 'available' : 'not-available'
+    return room.free(15) ? 'available' : 'not-available'
   },
 
   view: function(ctrl, data) {
     var room = data.room;
     return m("li", {class: "room " + this.isRoomAvailableClass(room)}, room.name())
+  }
+}
+
+var RoomElementInfo = {
+  progressBarWidth: function(room) {
+    var min = Time.minutesUntilFree(15, room.freeBusyInfo());
+    var minInPercent = (min / 60) * 100;
+    return 100 - Math.floor(minInPercent)
+  },
+
+  textForWhenRoomIsFree: function(room) {
+    var times = room.freeBusyInfo();
+    var min = Time.minutesUntilFree(15, times);
+    console.log('minutesUntilFree return value: ' + min);
+    if (min === 60) {
+      return "Room not available"
+    } else {
+      return "Free again in " + min + " minutes"
+    }
+  },
+
+  view: function(ctrl, data) {
+    var room = data.room;
+    return m("div", {class: "room-info"}, [
+      m("div", {class: "progress-bar", style: "width:" + this.progressBarWidth(room) + "%"}),
+      m("div", {class: "info-text"}, this.textForWhenRoomIsFree(room))
+    ])
   }
 }
 

@@ -39,11 +39,15 @@ and (max-device-width : 480px) {
   }
 
   .room {
-    margin-bottom: .5em;
     height: 1.8em;
     line-height: 1.8em;
     font-size: $base-font-size;
     border-radius: 2px;
+  }
+
+  .progress-bar {
+    height: 4px;
+    background-color: $green;
   }
 
   .not-available {

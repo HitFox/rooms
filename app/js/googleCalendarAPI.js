@@ -39,11 +39,12 @@ function getCalendarName(id) {
 }
 
 function freeOrBusy(calendar) {
-  if (calendar.busy.length === 0) {
-    return true;
-  } else {
-    return false;
-  }
+  return calendar.busy
+  // if (calendar.busy.length === 0) {
+  //   return true;
+  // } else {
+  //   return false;
+  // }
 }
 
 function calendarsForFreebusy() {
@@ -60,7 +61,7 @@ function showFreebusyInformation(callback) {
   var request = gapi.client.calendar.freebusy.query({
     resource: {
       timeMin: new Date(Date.now()).toISOString(),
-      timeMax: new Date(Date.now() + 15 * 60 * 1000).toISOString(),
+      timeMax: new Date(Date.now() + 60 * 60 * 1000).toISOString(),
       timeZone: 'Europe/Berlin',
       items: calendarsForFreebusy()
     }
@@ -72,10 +73,11 @@ function showFreebusyInformation(callback) {
     if (calendars) {
       console.log('Success');
       var calendarsFreeBusyInfo = new Object();
+      console.log(calendars);
       for (var calendarId in calendars) {
         var name = getCalendarName(calendarId);
-        var bool = freeOrBusy(calendars[calendarId]);
-        calendarsFreeBusyInfo[name] = [calendarId, bool];
+        var ary = freeOrBusy(calendars[calendarId]);
+        calendarsFreeBusyInfo[name] = [calendarId, ary];
 
       }
       callback(null, calendarsFreeBusyInfo);
