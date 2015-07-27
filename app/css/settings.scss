@@ -1,10 +1,12 @@
 @import 'variables';
+@import url(http://fonts.googleapis.com/css?family=Abel);
 
 * {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   color: $black;
+  font-family: 'Abel', sans-serif;
 }
 
 body, ul, h1, p, a, textarea, figure {

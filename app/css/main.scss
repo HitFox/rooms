@@ -9,15 +9,22 @@
   text-align: center;
   margin-top: 3em;
   @include bp-iphone4-iphone6 {
-    margin-top: 6em;
+    margin-top: 5em;
   }
   @include bp-ipad-desktop {
     max-width: 30%;
+    margin-top: 10em;
   }
 }
 
 #login {
   margin-top: 7em;
+  @include bp-iphone4-iphone6 {
+    margin-top: 9em;
+  }
+  @include bp-ipad-desktop {
+    margin-top: 12em;
+  }
 
   button {
     border: none;
@@ -27,11 +34,19 @@
     padding: 1em 1.8em;
     border-radius: 3px;
     margin-top: 5em;
+    @include bp-iphone4-iphone6 {
+      margin-top: 8em;
+    }
 
     &:hover {
       cursor: pointer;
     }
   }
+}
+
+#couch {
+  display: block;
+  margin: 0 auto;
 }
 
 .rooms {

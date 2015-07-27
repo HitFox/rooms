@@ -46,6 +46,14 @@ var Time = {
     } else {
       return finalTimes[0];
     }
+  },
+
+  minutesInWords: function(min) {
+    if (min === 1) {
+      return " 1 minute"
+    } else {
+      return " " + min + " minutes"
+    }
   }
 }
 
@@ -151,7 +159,7 @@ var MainApp = {
 var Login = {
   view: function(ctrl, data) {
     return m("div", {id: "login"}, [
-      m("img", {src: "/app/img/couch.svg"}),
+      m("img", {src: "/app/img/couch.svg", id: "couch"}),
       m("button", {onclick: data.user.authenticate}, "Login with Google")
     ])
   }
@@ -204,7 +212,7 @@ var RoomElementInfo = {
     if (min === 60) {
       return "Room not available"
     } else {
-      return "Free again in " + min + " minutes"
+      return "Free again in" + Time.minutesInWords(min)
     }
   },
 
