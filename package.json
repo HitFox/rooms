@@ -9,10 +9,11 @@
   },
   "devDependencies": {
     "browserify": "10.2.4",
-    "watchify": "latest",
-    "uglify-js2": "2.1.11",
+    "http-server": "^0.8.0",
     "node-sass": "latest",
-    "nodemon": "latest"
+    "nodemon": "latest",
+    "uglify-js2": "2.1.11",
+    "watchify": "latest"
   },
   "scripts": {
     "build:js": "mkdir -p dist/js ; browserify app/js/main.js | uglifyjs2 -o dist/js/app.js",
@@ -20,7 +21,7 @@
     "watch:js": "watchify app/js/main.js -o dist/js/app.js -v",
     "watch:css": "nodemon -e scss -x \"npm run build:css\"",
     "watch": "npm run watch:js & npm run watch:css",
-    "build": "npm run build:js & npm run build:css ; cp app/index.html dist/index.html"
+    "build": "npm run build:js & npm run build:css ; cp -r app/img dist/img; cp app/index.html dist/index.html"
   },
   "repository": {
     "type": "git",

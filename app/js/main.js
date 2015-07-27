@@ -105,7 +105,7 @@ var MainApp = {
 var Login = {
   view: function(ctrl, data) {
     return m("div", {id: "login"}, [
-      m("img", {src: "/app/img/couch.svg", id: "couch"}),
+      m("img", {src: "/img/couch.svg", id: "couch"}),
       m("button", {onclick: data.user.authenticate}, "Login with Google")
     ])
   }
@@ -166,7 +166,7 @@ var RoomElementInfo = {
     var room = data.room;
     return m("div", {class: "room-info"}, [
       m("div", {class: "progress-bar", style: "width:" + this.progressBarWidth(room) + "%"}),
-      m("img", {id: "stopwatch", src: "/app/img/stopwatch.svg"}),
+      m("img", {id: "stopwatch", src: "/img/stopwatch.svg"}),
       m("div", {class: "info-text"}, this.textForWhenRoomIsFree(room))
     ])
   }
