@@ -1,4 +1,4 @@
-## Rooms
+# Rooms
 
 A small app to view meeting room availability for Google Calendar.
 
@@ -17,3 +17,15 @@ The only thing left to do now, is to start a server, e.g. Pythons simple HTTP se
 `$ python -m SimpleHTTPServer 8000`
 
 Now visit `localhost:8000/app/` in your browser and you will see the index page.
+
+## Build
+
+```bash
+npm run build
+```
+
+## Deploy
+
+```bash
+s3cmd sync ./dist/* s3://rooms.hitfoxgroup.com
+```

@@ -15,12 +15,12 @@
     "nodemon": "latest"
   },
   "scripts": {
-    "build:js": "browserify app/js/main.js | uglifyjs2 -o dist/js/app.js",
-    "build:css": "node-sass app/css/main.scss dist/css/bundle.css",
+    "build:js": "mkdir -p dist/js ; browserify app/js/main.js | uglifyjs2 -o dist/js/app.js",
+    "build:css": "mkdir -p dist/css ; node-sass app/css/main.scss dist/css/bundle.css",
     "watch:js": "watchify app/js/main.js -o dist/js/app.js -v",
     "watch:css": "nodemon -e scss -x \"npm run build:css\"",
     "watch": "npm run watch:js & npm run watch:css",
-    "build": "npm run build:js & npm run build:css"
+    "build": "npm run build:js & npm run build:css ; cp app/index.html dist/index.html"
   },
   "repository": {
     "type": "git",
